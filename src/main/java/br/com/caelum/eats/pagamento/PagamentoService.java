@@ -16,6 +16,9 @@ public class PagamentoService {
 	@Autowired
 	private PedidoService pedidoService;
 
+	@Autowired
+	private NotificadorPagamentoConfirmado notificadorPagamentoConfirmado;
+
 	public PagamentoDto detalhar(Long id) {
 		Pagamento pagamento = pagamentoRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException());
 		return transformarParaDTO(pagamento);
@@ -33,7 +36,10 @@ public class PagamentoService {
 		Pagamento pagamento = pagamentoRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException());
 		pagamento.setStatus(Status.CONFIRMADO);
 		pagamentoRepository.save(pagamento);
-		pedidoService.pagar(pagamento.getPedidoId());
+		//pedidoService.pagar(pagamento.getPedidoId());
+
+		notificadorPagamentoConfirmado.notificarPagamentoConfirmado(pagamento);
+
 		return transformarParaDTO(pagamento);
 	}
 

@@ -11,4 +11,6 @@ module br.com.caelum.eats.pagamento {
 	requires spring.web;
 	requires spring.cloud.openfeign.core;
 	requires spring.cloud.netflix.eureka.client;
+	requires spring.amqp;
+	requires spring.rabbit;
 }
